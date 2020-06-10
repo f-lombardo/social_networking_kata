@@ -29,9 +29,6 @@ class SocialTest {
         assertEquals(User("Alice"), command.followed)
     }
 
-    private fun parse(sample: String): SocialCommand {
-        val parser = CommandParser(SimpleStringSource(sample))
-        val command: SocialCommand = parser.evaluate()
-        return command
-    }
+    private fun parse(sample: String): SocialCommand =
+        CommandParser(SimpleStringSource(sample)).evaluate()
 }
