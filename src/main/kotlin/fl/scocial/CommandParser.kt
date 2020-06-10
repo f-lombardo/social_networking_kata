@@ -13,6 +13,8 @@ class CommandParser(private val stringSource: StringSource) {
                 parsePostingCommand(originalString, tokens)
             }.or {
                 parseFollowingCommand(originalString, tokens)
+            }.or {
+                parseWallCommand(originalString, tokens)
             }.or (::noCommandFound)
     }
 
@@ -37,8 +39,18 @@ class CommandParser(private val stringSource: StringSource) {
             I_CANT_UNDERSTAND_THIS
         }
 
+    private fun parseWallCommand(originalString: String, tokens: List<String>): SocialCommandResult =
+        if (tokens.isTwoTokensCommand("wall")) {
+            Ok(WallCommand(User(tokens[0])))
+        } else {
+            I_CANT_UNDERSTAND_THIS
+        }
+
     private fun List<String>.isThreeTokensCommand(secondToken: String): Boolean =
         size >= 3  && get(1) == secondToken
+
+    private fun List<String>.isTwoTokensCommand(secondToken: String): Boolean =
+        size == 2  && get(1) == secondToken
 
     private fun noCommandFound(): SocialCommandResult = I_CANT_UNDERSTAND_THIS
 

@@ -32,6 +32,14 @@ class SocialTest {
         assertEquals(User("Alice"), command.followed)
     }
 
+    @Test
+    fun `a command parser can understand good wall commands`() {
+        val command: SocialCommand = parse("Charlie wall")
+
+        assertTrue(command is WallCommand)
+        assertEquals(User("Charlie"), command.user)
+    }
+
     private fun parse(sample: String): SocialCommand =
         CommandParser(SimpleStringSource(sample))
             .evaluate()
