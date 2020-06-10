@@ -50,8 +50,8 @@ class CommandParserTest {
         CommandParser(SimpleStringSource(sample))
             .evaluate()
             .mapBoth(
-                success = { it },
-                failure = { throw TestException(it) }
+                success = { command -> command },
+                failure = { message -> throw TestException(message) }
             )
 
     class TestException(msg: String): RuntimeException(msg)
