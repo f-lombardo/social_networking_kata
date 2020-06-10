@@ -1,11 +1,10 @@
 package fl.scocial
 
 import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.unwrap
 import java.lang.RuntimeException
 import kotlin.test.*
 
-class SocialTest {
+class CommandParserTest {
     @Test
     fun `a command parser can understand good posting commands`() {
         val command: SocialCommand = parse("Alice -> I love the weather today")
