@@ -40,11 +40,20 @@ class SocialTest {
         assertEquals(User("Charlie"), command.user)
     }
 
+    @Test
+    fun `a command parser returns an error for unknown commadns`() {
+        assertFailsWith<TestException> {
+            parse("Charlie buzz Foo")
+        }
+    }
+
     private fun parse(sample: String): SocialCommand =
         CommandParser(SimpleStringSource(sample))
             .evaluate()
             .mapBoth(
                 success = { it },
-                failure = { throw RuntimeException(it) }
+                failure = { throw TestException(it) }
             )
+
+    class TestException(val msg: String): RuntimeException(msg)
 }
