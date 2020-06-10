@@ -5,9 +5,7 @@ import kotlin.test.*
 class SocialTest {
     @Test
     fun `a command parser can understand good posting commands`() {
-        val parser = CommandParser (SimpleStringSource("Alice -> I love the weather today"))
-
-        val command: SocialCommand =  parser.evaluate()
+        val command: SocialCommand = parse("Alice -> I love the weather today")
 
         assertTrue(command is PostingCommand)
         assertEquals(User("Alice"), command.user)
@@ -16,9 +14,7 @@ class SocialTest {
 
     @Test
     fun `a command parser can understand good reading commands`() {
-        val parser = CommandParser (SimpleStringSource("Alice"))
-
-        val command: SocialCommand =  parser.evaluate()
+        val command: SocialCommand = parse("Alice")
 
         assertTrue(command is ReadingCommand)
         assertEquals(User("Alice"), command.user)
@@ -26,12 +22,16 @@ class SocialTest {
 
     @Test
     fun `a command parser can understand good following commands`() {
-        val parser = CommandParser (SimpleStringSource("Charlie follows Alice"))
-
-        val command: SocialCommand =  parser.evaluate()
+        val command: SocialCommand = parse("Charlie follows Alice")
 
         assertTrue(command is FollowingCommand)
         assertEquals(User("Charlie"), command.follower)
         assertEquals(User("Alice"), command.followed)
+    }
+
+    private fun parse(sample: String): SocialCommand {
+        val parser = CommandParser(SimpleStringSource(sample))
+        val command: SocialCommand = parser.evaluate()
+        return command
     }
 }
