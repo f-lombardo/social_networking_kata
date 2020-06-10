@@ -1,5 +1,7 @@
 package fl.scocial
 
+import com.github.michaelbull.result.mapBoth
+import com.github.michaelbull.result.unwrap
 import kotlin.test.*
 
 class SocialTest {
@@ -30,5 +32,10 @@ class SocialTest {
     }
 
     private fun parse(sample: String): SocialCommand =
-        CommandParser(SimpleStringSource(sample)).evaluate()
+        CommandParser(SimpleStringSource(sample))
+            .evaluate()
+            .mapBoth(
+                success = { it },
+                failure = { throw it }
+            )
 }
