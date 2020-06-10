@@ -41,7 +41,7 @@ class SocialTest {
     }
 
     @Test
-    fun `a command parser returns an error for unknown commadns`() {
+    fun `a command parser returns an error for unknown commands`() {
         assertFailsWith<TestException> {
             parse("Charlie buzz Foo")
         }
@@ -55,5 +55,5 @@ class SocialTest {
                 failure = { throw TestException(it) }
             )
 
-    class TestException(val msg: String): RuntimeException(msg)
+    class TestException(msg: String): RuntimeException(msg)
 }
