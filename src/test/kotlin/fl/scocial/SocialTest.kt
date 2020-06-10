@@ -13,4 +13,14 @@ class SocialTest {
         assertEquals(User("Alice"), command.user)
         assertEquals("I love the weather today", command.message)
     }
+
+    @Test
+    fun `a command parser can understand good reading commands`() {
+        val parser = CommandParser (SimpleStringSource("Alice"))
+
+        val command: SocialCommand =  parser.evaluate()
+
+        assertTrue(command is ReadingCommand)
+        assertEquals(User("Alice"), command.user)
+    }
 }
