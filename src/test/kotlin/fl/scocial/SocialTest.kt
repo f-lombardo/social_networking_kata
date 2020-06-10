@@ -4,7 +4,11 @@ import kotlin.test.*
 
 class SocialTest {
     @Test
-    fun firstTest() {
-        assertEquals(1, 1)
+    fun `a command parser can understand good posting commands`() {
+        val parser = CommandParser (SimpleStringSource("Alice -> I love the weather today"))
+
+        val command: SocialCommand =  parser.evaluate()
+
+        assertTrue(command is PostingCommand)
     }
 }
