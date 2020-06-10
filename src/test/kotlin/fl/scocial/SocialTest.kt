@@ -2,6 +2,7 @@ package fl.scocial
 
 import com.github.michaelbull.result.mapBoth
 import com.github.michaelbull.result.unwrap
+import java.lang.RuntimeException
 import kotlin.test.*
 
 class SocialTest {
@@ -36,6 +37,6 @@ class SocialTest {
             .evaluate()
             .mapBoth(
                 success = { it },
-                failure = { throw it }
+                failure = { throw RuntimeException(it) }
             )
 }
