@@ -10,5 +10,7 @@ class SocialTest {
         val command: SocialCommand =  parser.evaluate()
 
         assertTrue(command is PostingCommand)
+        assertEquals(User("Alice"), command.user)
+        assertEquals("I love the weather today", command.message)
     }
 }
