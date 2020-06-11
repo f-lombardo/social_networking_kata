@@ -1,6 +1,6 @@
 package fl.scocial
 
-import kotlin.test.Ignore
+import java.time.LocalDateTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -24,7 +24,7 @@ class CommandInterpreterTest {
     }
 
     @Test
-    fun `interpretation of subscribing and viewing aggregate list`() {
+    fun `interpretation of subscribing and viewing simple list`() {
         val commands = commandList() +
             (User("Alice") posts  "I love the weather today") +
             (User("Bob") posts "Damn! We lost!") +
@@ -39,16 +39,27 @@ class CommandInterpreterTest {
         val interpreter = CommandInterpreter(output)
         commands.forEach { command -> interpreter.interpret(command) }
         assertEquals(
-            listOf<String>("I love the weather today",
-                           "Damn! We lost!",
-                           "Good game though.",
-                            "I'm in New York today! Anyone wants to have a coffee?",
-                            "I love the weather today"
+            listOf<String>(
+                "I love the weather today",
+                "Damn! We lost!",
+                "Good game though.",
+                "I'm in New York today! Anyone wants to have a coffee?",
+                "I love the weather today"
             ),
             output.lines
         )
     }
 
+    @Test
+    fun `messages have a time`() {
+        val command = (User("Alice") posts ("I love the weather today" at "2020-06-11T13:01:00"))
+        assertEquals(
+            LocalDateTime.of(2020, 6, 11, 13, 1),
+            command.dateTime
+        )
+    }
 }
 
+private infix fun String.at(dateTimeString: String) =
+    (this to LocalDateTime.parse(dateTimeString))
 private fun commandList() = mutableListOf<SocialCommand>()
