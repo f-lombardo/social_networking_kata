@@ -10,7 +10,7 @@ class CommandInterpreter (val output: StringDestination) {
                 val messages = timeLine.getOrPut(command.user) {
                     mutableListOf<SocialMessage>()
                 }
-                messages.add(SocialMessage(command.message))
+                messages.add(command.socialMessage)
             }
             is ReadingCommand -> {
                 command.user.outputTimeline()
