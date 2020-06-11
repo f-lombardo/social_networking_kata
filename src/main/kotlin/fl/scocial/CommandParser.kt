@@ -6,7 +6,7 @@ typealias SocialCommandResult = Result<SocialCommand, String>
 
 class CommandParser(private val stringSource: StringSource) {
     fun evaluate(): SocialCommandResult {
-        val originalString = stringSource()
+        val originalString = stringSource() ?: return I_CANT_UNDERSTAND_THIS
         val tokens = originalString.split("\\s".toRegex())
         return parseReadingCommand(originalString, tokens)
             .or {
