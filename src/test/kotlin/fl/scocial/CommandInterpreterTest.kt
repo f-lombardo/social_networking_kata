@@ -58,8 +58,7 @@ class CommandInterpreterTest {
             command.dateTime
         )
     }
+
+    private fun commandList() = mutableListOf<SocialCommand>()
 }
 
-private fun commandList() = mutableListOf<SocialCommand>()
-
-private infix fun String.at(dateTimeString: String) = (this to LocalDateTime.parse(dateTimeString))

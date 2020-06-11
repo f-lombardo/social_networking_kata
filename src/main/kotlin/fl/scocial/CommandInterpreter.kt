@@ -1,16 +1,16 @@
 package fl.scocial
 
 class CommandInterpreter (val output: StringDestination) {
-    private val timeLine = mutableMapOf<User, MutableList<SocialMessage>>()
+    private val timeLine = mutableMapOf<User, MutableList<TimedMessage>>()
     private val influencers = mutableMapOf<User, MutableList<User>>()
 
     fun interpret(command: SocialCommand): Unit {
         when(command) {
             is PostingCommand -> {
                 val messages = timeLine.getOrPut(command.user) {
-                    mutableListOf<SocialMessage>()
+                    mutableListOf<TimedMessage>()
                 }
-                messages.add(command.socialMessage)
+                messages.add(command.timedMessage)
             }
             is ReadingCommand -> {
                 command.user.outputTimeline()
