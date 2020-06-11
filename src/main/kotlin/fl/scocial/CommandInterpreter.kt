@@ -30,10 +30,12 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
                 followed.add(command.followed)
             }
             is WallCommand -> {
-                val composedTimeLine = timeLine.getOrDefault(command.user, emptyList<TimedMessage>())
-                val influencersTimeLines = influencers.getOrDefault(command.user, emptyList<TimedMessage>()).map {
+                val composedTimeLine = timeLine.getOrEmpty(command.user)
+
+                val influencersTimeLines = influencers.getOrEmpty(command.user).map {
                     user -> timeLine[user]?.toList() ?: emptyList()
                 }.flatten()
+
                 (composedTimeLine + influencersTimeLines)
                     .sortedByDescending { it.dateTime }
                     .forEach {
@@ -42,6 +44,8 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
             }
         }
     }
+
+    private fun <T> Map<User, MutableList<T>>.getOrEmpty(user: User) = getOrDefault(user, emptyList<T>())
 
     private fun User.outputTimeline() =
         timeLine[this]?.forEach {
