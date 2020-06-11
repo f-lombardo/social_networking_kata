@@ -23,7 +23,7 @@ class CommandInterpreterTest {
         )
     }
 
-    @Test @Ignore
+    @Test
     fun `interpretation of subscribing and viewing aggregate list`() {
         val commands = commandList() +
             (User("Alice") posts  "I love the weather today") +
@@ -33,13 +33,20 @@ class CommandInterpreterTest {
             User("Bob").readMessages() +
             (User("Charlie") posts "I'm in New York today! Anyone wants to have a coffee?") +
             (User("Charlie") follows User("Alice")) +
-            User("Charlie").wall() +
-            (User("Charlie") follows User("Bob")) +
             User("Charlie").wall()
 
         val output = SimpleStringDestination()
         val interpreter = CommandInterpreter(output)
         commands.forEach { command -> interpreter.interpret(command) }
+        assertEquals(
+            listOf<String>("I love the weather today",
+                           "Damn! We lost!",
+                           "Good game though.",
+                            "I'm in New York today! Anyone wants to have a coffee?",
+                            "I love the weather today"
+            ),
+            output.lines
+        )
     }
 
 }
