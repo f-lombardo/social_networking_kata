@@ -5,21 +5,33 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TimedMessageTest {
-//    @Test
-//    fun `a message displays number of minutes since its creation if it was at least 2 minutes ago`() {
-//        val timedMessage = "Hello" at "2020-06-11T18:01:00"
-//        assertEquals(
-//            " (2 minutes ago)",
-//            timedMessage.formatTimeElapsedUntil(LocalDateTime.of(2020, 6, 11, 18, 3))
-//        )
-//    }
-//
-//    @Test
-//    fun `a message does not display number of minutes since its creation if it was less than 2 minutes ago`() {
-//        val timedMessage = "Hello" at "2020-06-11T18:01:00"
-//        assertEquals(
-//            "",
-//            timedMessage.formatTimeElapsedUntil(LocalDateTime.of(2020, 6, 11, 18, 2))
-//        )
-//    }
+    @Test
+    fun `a message displays number of minutes since its creation`() {
+        val now = LocalDateTime.now()
+        val timedMessage = TimedMessage(User("Bob"), "Some message", now.minusMinutes(2))
+        assertEquals(
+            "(2 minutes ago)",
+            timedMessage.formatTimeElapsedUntil(now)
+        )
+    }
+
+    @Test
+    fun `a message displays number of seconds since its creation`() {
+        val now = LocalDateTime.now()
+        val timedMessage = TimedMessage(User("Bob"), "Some message", now.minusSeconds(10))
+        assertEquals(
+            "(10 seconds ago)",
+            timedMessage.formatTimeElapsedUntil(now)
+        )
+    }
+
+    @Test
+    fun `a message does not display anything if less than 1 second elapsed`() {
+        val now = LocalDateTime.now()
+        val timedMessage = TimedMessage(User("Bob"), "Some message", now)
+        assertEquals(
+            "",
+            timedMessage.formatTimeElapsedUntil(now)
+        )
+    }
 }
