@@ -5,7 +5,12 @@ import com.github.michaelbull.result.mapBoth
 object Main {
     @JvmStatic
     fun main(args: Array<String>) {
-        executionLoop(::readLine, ::println)
+        executionLoop(::readLineWithPrompt, ::println)
+    }
+
+    fun readLineWithPrompt(): String? {
+        print("> ")
+        return readLine()
     }
 
     fun executionLoop(stringSource: StringSource, stringDestination: StringDestination) {
