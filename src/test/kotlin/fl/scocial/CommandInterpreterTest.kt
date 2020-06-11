@@ -4,7 +4,7 @@ import com.github.michaelbull.result.mapBoth
 import kotlin.test.*
 
 class CommandInterpreterTest {
-    @Test @Ignore
+    @Test
     fun `interpretation of posting and reading`() {
         val commands = listOf<SocialCommand>(
             PostingCommand(User("Alice"), "I love the weather today"),
