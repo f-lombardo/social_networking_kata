@@ -1,6 +1,14 @@
 package fl.scocial
 
-class CommandInterpreter (val output: StringDestination) {
+import java.time.LocalDateTime
+
+typealias TimeSource = () -> LocalDateTime
+
+object StandardTimeSource: TimeSource {
+    override fun invoke(): LocalDateTime = LocalDateTime.now()
+}
+
+class CommandInterpreter (val output: StringDestination, private val timeSource: TimeSource = StandardTimeSource) {
     private val timeLine = mutableMapOf<User, MutableList<TimedMessage>>()
     private val influencers = mutableMapOf<User, MutableList<User>>()
 
@@ -22,10 +30,15 @@ class CommandInterpreter (val output: StringDestination) {
                 followed.add(command.followed)
             }
             is WallCommand -> {
-                command.user.outputTimeline()
-                influencers[command.user]?.forEach {
-                    influencer -> influencer.outputTimeline()
-                }
+                val composedTimeLine = timeLine.getOrDefault(command.user, emptyList<TimedMessage>())
+                val influencersTimeLines = influencers.getOrDefault(command.user, emptyList<TimedMessage>()).map {
+                    user -> timeLine[user]?.toList() ?: emptyList()
+                }.flatten()
+                (composedTimeLine + influencersTimeLines)
+                    .sortedByDescending { it.dateTime }
+                    .forEach {
+                        output("(${it.user.name}) ${it.message}${it.formatTimeElapsedUntil(timeSource())}")
+                    }
             }
         }
     }
@@ -34,5 +47,4 @@ class CommandInterpreter (val output: StringDestination) {
         timeLine[this]?.forEach {
             output(it.message)
         }
-
 }

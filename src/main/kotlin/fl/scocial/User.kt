@@ -1,3 +1,3 @@
 package fl.scocial
 
-inline class User(val user: String)
+inline class User(val name: String)

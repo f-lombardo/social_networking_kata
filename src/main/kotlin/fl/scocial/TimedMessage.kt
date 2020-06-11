@@ -3,7 +3,7 @@ package fl.scocial
 import java.time.Duration
 import java.time.LocalDateTime
 
-data class TimedMessage (val message: String, val dateTime: LocalDateTime) {
+data class TimedMessage (val user: User, val message: String, val dateTime: LocalDateTime) {
     fun timeElapsedUntil(endTime: LocalDateTime) = Duration.between(dateTime, endTime)
     fun formatTimeElapsedUntil(endTime: LocalDateTime): String {
         val minutesElapsed = timeElapsedUntil(endTime).toMinutes()
@@ -14,5 +14,3 @@ data class TimedMessage (val message: String, val dateTime: LocalDateTime) {
         }
     }
 }
-
-infix fun String.at(dateTimeString: String) = TimedMessage(this, LocalDateTime.parse(dateTimeString))
