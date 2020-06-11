@@ -1,4 +1,4 @@
-package fl.scocial
+package fl.social
 
 import java.time.Duration
 import java.time.LocalDateTime

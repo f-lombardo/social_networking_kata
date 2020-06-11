@@ -1,3 +1,3 @@
-package fl.scocial
+package fl.social
 
 inline class User(val name: String)

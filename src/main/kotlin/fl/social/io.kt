@@ -1,4 +1,4 @@
-package fl.scocial
+package fl.social
 
 typealias StringSource = () -> String?
 
