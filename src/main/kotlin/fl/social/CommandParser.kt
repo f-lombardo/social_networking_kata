@@ -17,6 +17,8 @@ class CommandParser(private val stringSource: StringSource) {
                 parseWallCommand(originalString, tokens)
             }.or {
                 parsePrivateMessageCommand(originalString, tokens)
+            }.or {
+                parseReadPrivateMessageCommand(originalString, tokens)
             }.or (::noCommandFound)
     }
 
@@ -51,6 +53,13 @@ class CommandParser(private val stringSource: StringSource) {
     private fun parsePrivateMessageCommand(originalString: String, tokens: List<String>): SocialCommandResult =
         if (tokens.isFourTokensCommand("to", "->")) {
             Ok(PrivateMessageCommand(User(tokens[0]), User(tokens[2]), tokens.subList(4, tokens.size).joinToString(" ")))
+        } else {
+            I_CANT_UNDERSTAND_THIS
+        }
+
+    private fun parseReadPrivateMessageCommand(originalString: String, tokens: List<String>): SocialCommandResult =
+        if (tokens.isThreeTokensCommand("and")) {
+            Ok(ReadPrivateMessageCommand(User(tokens[0]), User(tokens[2])))
         } else {
             I_CANT_UNDERSTAND_THIS
         }

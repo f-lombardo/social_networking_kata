@@ -61,6 +61,15 @@ class CommandParserTest {
         assertEquals(message, command.message)
     }
 
+    @Test
+    fun `a command parser can understand good read private message commands`() {
+        val command: SocialCommand = parse("Alice and Charlie")
+
+        assertTrue(command is ReadPrivateMessageCommand)
+        assertEquals(User("Alice"), command.userFrom)
+        assertEquals(User("Charlie"), command.userTo)
+    }
+
     private fun parse(sample: String): SocialCommand =
         CommandParser(SimpleStringSource(sample))
             .evaluate()
