@@ -10,6 +10,9 @@ data class TimedMessage (val user: User, val message: String, val dateTime: Loca
         return when (secondsElapsed) {
             0L -> ""
             in 1..59 -> "($secondsElapsed seconds ago)"
+            in 60..119 -> {
+                "(1 minute ago)"
+            }
             else -> {
                 val minutesElapsed = timeElapsedUntil(endTime).toMinutes()
                 "($minutesElapsed minutes ago)"

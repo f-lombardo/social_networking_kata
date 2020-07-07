@@ -48,7 +48,7 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
     private fun <T> Map<User, MutableList<T>>.getOrEmpty(user: User) = getOrDefault(user, emptyList<T>())
 
     private fun User.outputTimeline() =
-        timeLine[this]?.forEach {
+        timeLine[this]?.sortedByDescending { it.dateTime }?.forEach {
             output("${it.message} ${it.formatTimeElapsedUntil(timeSource())}".trimEnd())
         }
 }
