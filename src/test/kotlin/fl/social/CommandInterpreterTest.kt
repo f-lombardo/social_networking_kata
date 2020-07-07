@@ -24,7 +24,7 @@ class CommandInterpreterTest {
     }
 
     @Test
-    fun `interpretation of posting and reading whith time`() {
+    fun `interpretation of posting and reading with time`() {
         val currentTime = LocalDateTime.now()
         val commands = commandList() +
             (User("Alice") posts ("I love the weather today" at 5.minutesSince(currentTime))) +
