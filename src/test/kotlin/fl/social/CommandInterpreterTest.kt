@@ -24,6 +24,25 @@ class CommandInterpreterTest {
     }
 
     @Test
+    fun `interpretation of posting and reading whith time`() {
+        val currentTime = LocalDateTime.now()
+        val commands = commandList() +
+            (User("Alice") posts ("I love the weather today" at 5.minutesSince(currentTime))) +
+            (User("Bob") posts "Damn! We lost!") +
+            (User("Bob") posts "Good game though.") +
+            User("Alice").readMessages() +
+            User("Bob").readMessages()
+
+        val output = SimpleStringDestination()
+        val interpreter = CommandInterpreter(output)
+        commands.forEach { command -> interpreter.interpret(command) }
+        assertEquals(
+            listOf<String>("I love the weather today (5 minutes ago)", "Damn! We lost!", "Good game though."),
+            output.lines
+        )
+    }
+
+    @Test
     fun `interpretation of subscribing and viewing simple list`() {
         val commands = commandList() +
             (User("Alice") posts  "I love the weather today") +

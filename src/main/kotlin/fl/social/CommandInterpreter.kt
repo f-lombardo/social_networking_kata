@@ -49,6 +49,6 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
 
     private fun User.outputTimeline() =
         timeLine[this]?.forEach {
-            output(it.message)
+            output("${it.message} ${it.formatTimeElapsedUntil(timeSource())}".trimEnd())
         }
 }
