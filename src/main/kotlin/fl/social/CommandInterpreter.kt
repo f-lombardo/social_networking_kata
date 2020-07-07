@@ -39,7 +39,7 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
                 (composedTimeLine + influencersTimeLines)
                     .sortedByDescending { it.dateTime }
                     .forEach {
-                        output("(${it.user.name}) ${it.message} ${it.formatTimeElapsedUntil(timeSource())}".trimEnd())
+                        output("(${it.user.name}) ${it.displayMessageWithTime(timeSource)}".trimEnd())
                     }
             }
         }
@@ -49,6 +49,6 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
 
     private fun User.outputTimeline() =
         timeLine[this]?.sortedByDescending { it.dateTime }?.forEach {
-            output("${it.message} ${it.formatTimeElapsedUntil(timeSource())}".trimEnd())
+            output(it.displayMessageWithTime(timeSource).trimEnd())
         }
 }

@@ -19,4 +19,6 @@ data class TimedMessage (val user: User, val message: String, val dateTime: Loca
             }
         }
     }
+
+    fun displayMessageWithTime(timeSource: TimeSource) = "$message ${formatTimeElapsedUntil(timeSource())}"
 }
