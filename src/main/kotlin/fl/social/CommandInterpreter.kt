@@ -42,6 +42,7 @@ class CommandInterpreter (val output: StringDestination, private val timeSource:
                         output("(${it.user.name}) ${it.displayMessageWithTime(timeSource)}".trimEnd())
                     }
             }
+            is PrivateMessageCommand -> TODO()
         }
     }
 

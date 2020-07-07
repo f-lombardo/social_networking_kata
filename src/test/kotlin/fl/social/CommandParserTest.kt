@@ -44,6 +44,21 @@ class CommandParserTest {
         assertFailsWith<TestException> {
             parse("Charlie buzz Foo")
         }
+
+        assertFailsWith<TestException> {
+            parse("Alice to Charlie ## Hello! How are you?")
+        }
+    }
+
+    @Test
+    fun `a command parser can understand good private message commands`() {
+        val message = "Hello!           How are you?"
+        val command: SocialCommand = parse("Alice to Charlie -> $message")
+
+        assertTrue(command is PrivateMessageCommand)
+        assertEquals(User("Alice"), command.userFrom)
+        assertEquals(User("Charlie"), command.userTo)
+        assertEquals(message, command.message)
     }
 
     private fun parse(sample: String): SocialCommand =

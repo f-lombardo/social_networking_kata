@@ -1,6 +1,7 @@
 package fl.social
 
 import java.time.LocalDateTime
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -98,6 +99,24 @@ class CommandInterpreterTest {
             output.lines
         )
     }
+
+    @Test @Ignore
+    fun `private messages`() {
+        val currentTime = LocalDateTime.now()
+        val commands = commandList() +
+            (User("Alice").privateMessageTo(User("Charlie"), "Hello! How are you?")) +
+            (User("Charlie").privateMessageTo(User("Alice"), "Fine thanks!?"))
+
+
+        val output = SimpleStringDestination()
+        val interpreter = CommandInterpreter(output)
+        commands.forEach { command -> interpreter.interpret(command) }
+        assertEquals(
+            emptyList<String>(),
+            output.lines
+        )
+    }
+
 
     private fun commandList() = mutableListOf<SocialCommand>()
 

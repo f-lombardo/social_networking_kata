@@ -10,3 +10,4 @@ data class PostingCommand(val user: User, val message: String, val time: LocalDa
 data class ReadingCommand(val user: User): SocialCommand()
 data class FollowingCommand(val follower: User, val followed: User): SocialCommand()
 data class WallCommand(val user: User): SocialCommand()
+data class PrivateMessageCommand(val userFrom: User, val userTo: User, val message: String): SocialCommand()
